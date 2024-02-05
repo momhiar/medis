@@ -53,3 +53,11 @@ Steps to contribute:
 3. Commit your changes (git commit -am 'Add some fooBar')
 4. Push to the branch (git push origin feature/fooBar)
 5. Create a new Pull Request
+
+
+
+## OOP Design patterns:
+
+- Command Pattern for redis commands
+- Thread safe Singleton Pattern for db store
+- mono (single) observer for db persistors
