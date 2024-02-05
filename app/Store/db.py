@@ -34,36 +34,47 @@ class SingletonInMemStore(metaclass=SingletonInMemStoreMeta):
     #TODO: we should add logic for dynamic persistor type
     # for now we skip because lack of time
     __persist_file = 'db_persist.pickle'
-    def set_value_to_objects(self, key, value, expiry_date: int = None):
+    def set_value_to_objects(self, key, value, expiry_date = None):
         self.__objects[key] = (value, expiry_date)
         self.sync_persistors_from_latest()
-        return 'OK'
+        return b"+OK\r\n"
 
     def get_value_from_objects(self, key):
         value = self.check_value(pair=self.__objects.get(key))
-        if value is None: self.delete_record_from_objects(key) 
-        return value
+        if value is None: 
+            self.delete_record_from_objects(key) 
+            return b"$-1\r\n"
+        return b"$%d\r\n%b\r\n" % (len(value), value)
     
     def check_value(self, pair):
         if not pair:
             return pair
-        value, expiry_date = pair
-        if (expiry_date is None) or (int(time.time()) * 1000 <= expiry_date):
+        value = pair[0]
+        expiry_date = pair[1]
+        if (expiry_date is not None) and (int(time.time() * 1000)  <= expiry_date):
+            return value
+        if (expiry_date is None):
             return value
         return None
     def delete_record_from_objects(self, key):
         if self.__objects.get(key):
             del self.__objects[key]
             self.sync_persistors_from_latest()
-            return 'OK'
+            return  b"+OK\r\n"
+        else:
+            return b"$-1\r\n"
         
     def get_ttl_from_objects(self, key):
         record = self.__objects.get(key)
         if not record:
-            return -2
+            return b"$-2\r\n"
         if record[1] is None:
-            return -1 
-        return record[1]
+            return b"$-1\r\n"
+        ttl = record[1] - int(time.time() * 1000)
+        if ttl < 0:
+            self.delete_record_from_objects(key=key)
+            return b"$-1\r\n"
+        return b"$%d\r\n%b\r\n" % (len(str(ttl)), str(ttl).encode())
        
     #implementation of observer patterns but only one observer
     def sync_persistors_from_latest(self):
