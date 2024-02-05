@@ -7,5 +7,6 @@ class ServerObj:
       self.__reuse_port = reuse_port
     
     def create_and_get_socket(self):
-        return  socket.create_server((self.__bind,self.__port) ,
-                                     reuse_port=self.__reuse_port)
+        server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        server_socket.bind((self.__bind,self.__port))
+        return  server_socket
