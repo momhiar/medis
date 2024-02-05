@@ -5,9 +5,10 @@ import time
 def store():
     return SingletonInMemStore()
 
-
+# currently these are our first test because lack of time
+#TODO: add more tests
 def test_value_is_set(store):
-    res = store.set_value_to_objects(key='record_1', value='test', expiry_date=(int(time.time())*1000)) 
+    res = store.set_value_to_objects(key='record_1', value='test', expiry_date=(int(time.time())*1000 + 200)) 
     assert res == 'OK'
 
 def test_get_value(store):
@@ -26,3 +27,7 @@ def test_get_ttl(store):
     res = store.get_ttl_from_objects(key='neve_submitted_record_here')
     assert res == -2
     
+    
+# def test_persistors_work(store):
+#     store.sync_data_from_persistor()
+#     print(store.get_value_from_objects('record_2'))
