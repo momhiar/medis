@@ -1,4 +1,6 @@
 from threading import Lock
+import time
+import pickle
 class SingletonInMemStoreMeta(type):
     _instances = {}
     _lock: Lock = Lock()
@@ -27,3 +29,32 @@ class SingletonInMemStoreMeta(type):
 
 class SingletonInMemStore(metaclass=SingletonInMemStoreMeta):
     __objects = {}
+    
+    def set_value_to_objects(self, key, value, expiry_date: int = None):
+        self.__objects[key] = (value, expiry_date)
+        return 'OK'
+
+    def get_value_from_objects(self, key):
+        value = self.check_value(pair=self.__objects.get(key))
+        if value is None: self.delete_record_from_objects(key) 
+        return value
+    
+    def check_value(self, pair):
+        if not pair:
+            return pair
+        value, expiry_date = pair
+        if (expiry_date is None) or (int(time.time()) * 1000 <= expiry_date):
+            return value
+        return None
+    def delete_record_from_objects(self, key):
+        if self.__objects.get(key):
+            del self.__objects[key]
+            return 'OK'
+        
+    def get_ttl_from_objects(self, key):
+        record = self.__objects.get(key)
+        if not record:
+            return -2
+        if record[1] is None:
+            return -1 
+        return record[1]
