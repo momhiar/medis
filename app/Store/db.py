@@ -67,7 +67,7 @@ class SingletonInMemStore(metaclass=SingletonInMemStoreMeta):
     def get_ttl_from_objects(self, key):
         record = self.__objects.get(key)
         if not record:
-            return b"$-2\r\n"
+            return b"+-2\r\n"
         if record[1] is None:
             return b"$-1\r\n"
         ttl = record[1] - int(time.time() * 1000)
