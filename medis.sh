@@ -1,2 +1,2 @@
 #!/bin/bash
-python app/main.py $1 $2
+python -u app/main.py $1 $2
