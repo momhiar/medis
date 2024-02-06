@@ -2,6 +2,7 @@ import threading
 from Server.server import ServerObj
 from Commands.managers import BasicCommandManager
 from Store.db import SingletonInMemStore
+import sys
 # main class contains some static methodes 
 # which starts server
 class Main:
@@ -33,4 +34,10 @@ class Main:
           threading.Thread(target=Main.handle_connection, args=(client_connection,)).start()
 
 if __name__ == "__main__":
-    Main.run_server()  
+    if len(sys.argv) == 3:
+      args = [sys.argv[1], int(sys.argv[2])]
+    elif len(sys.argv):
+      args = []
+    else:
+      raise ReferenceError('arguments are not enough')
+    Main.run_server(*args)  
