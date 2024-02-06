@@ -34,6 +34,13 @@ sudo chmod +x medis.sh
 ```bash
 redis-cli -p 6689
 ```
+## Commands
+- SET (ex: set test_key test_value {ttl in milliseconds like 10000})
+- GET (ex: get test_key)
+- DEL (ex: del test_key)
+- TTL (ex: ttl test_key)
+- PING
+- COMMAND (just greetings)
 
 ## Running the tests
 we are using pytest as testing library so easily run pytest to run tests
