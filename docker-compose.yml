@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+  medis:
+   container_name: medis-docker
+   build:
+     context: .
+   entrypoint: ./medis.sh
+   ports:
+     - 6690:6689
+  #  volumes:
+  #    - MEDIS_PERSISTENT:/app/db_persist.pickle
+# volumes:
+#   MEDIS_PERSISTENT:
+#     name: MEDIS_PERSISTENT
