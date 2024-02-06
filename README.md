@@ -13,6 +13,11 @@ title: Medis (PyInMemStore)
 * Python 3.11 and up 
 * pytest
 
+## Run with docker
+ ```bash
+   docker compose up --build
+ ```
+
 ## development setup guide:
 
 -   setup virtual environment
