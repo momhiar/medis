@@ -4,7 +4,7 @@ services:
    container_name: medis-docker
    build:
      context: .
-   entrypoint: python -u app/main.py 0.0.0.0 6689
+   entrypoint: ./medis.sh 0.0.0.0 6689
    ports:
      - 6689:6689
    volumes:
