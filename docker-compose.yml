@@ -4,11 +4,8 @@ services:
    container_name: medis-docker
    build:
      context: .
-   entrypoint: ./medis.sh 0.0.0.0 6689
+   entrypoint: python -u app/main.py 0.0.0.0 6689
    ports:
      - 6689:6689
-  #  volumes:
-  #    - MEDIS_PERSISTENT:/app/db_persist.pickle
-# volumes:
-#   MEDIS_PERSISTENT:
-#     name: MEDIS_PERSISTENT
+   volumes:
+     - ./persistors_data:/app/persistors

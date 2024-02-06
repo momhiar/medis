@@ -3,3 +3,4 @@ __pycache__
 .pytest_cache
 db_persist.pickle
 db_persist_test.pickle
+persistors_data

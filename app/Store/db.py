@@ -33,7 +33,7 @@ class SingletonInMemStore(metaclass=SingletonInMemStoreMeta):
     __persistor : Persistor = PicklePersistor()
     #TODO: we should add logic for dynamic persistor type
     # for now we skip because lack of time
-    __persist_file = 'db_persist.pickle'
+    __persist_file = 'persistors/db_persist.pickle'
     def set_value_to_objects(self, key, value, expiry_date = None):
         self.__objects[key] = (value, expiry_date)
         self.sync_persistors_from_latest()
